@@ -3,6 +3,7 @@
 #include <SFML/Audio.hpp>
 #include <ctime>
 #include <cstdlib>
+#include <iostream>
 
 #include "paddle.h"
 #include "paddle_AI.h"
@@ -28,18 +29,18 @@ sf::Font myFont;
 sf::Texture powerupTexture;
 sf::Texture blockTexture;
 
-sf::SoundBuffer winSoundBuffer;
-sf::Sound winSound;
+static sf::SoundBuffer ballSoundBuffer;
+static sf::Sound ballSound;
 
 BALLSTATUS ballStatus_Curr;
 
 bool isPlaying;
 
 void SoundInit() {
-	if (!winSoundBuffer.loadFromFile("win.wav"))
+	if (!ballSoundBuffer.loadFromFile("ball.wav"))
 		return ;
-	winSound = sf::Sound(winSoundBuffer);
-	winSound.setVolume(50);
+	ballSound.setBuffer(ballSoundBuffer);
+	ballSound.setVolume(50);
 }
 
 void winMsgInit() {
@@ -84,7 +85,7 @@ void GameInit() {
 
 void EndOrRestartGame() {
 	
-	winSound.play();
+	//winSound.play();
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 		GameInit();
 	}
@@ -145,6 +146,8 @@ int main()
 	//paddles, scores, and ball initlization
 	GameInit();
 
+	
+
 	while (window.isOpen())
 	{
 		//Window initlization
@@ -156,6 +159,8 @@ int main()
 		}
 
 		window.clear(BACK_COLOR);
+
+		
 
 		//check if any player wins the turn
 		ballStatus_Curr = ballplay.checkWin();
@@ -242,12 +247,14 @@ int main()
 
 				//update ball angle if collision happens with left paddle
 				if (collisionPosLeft != NO_COLLISION_POSITION) {
+					ballSound.play();
 					ballplay.ballAngleUpdate_LPaddle(collisionPosLeft, paddleLeftPos_Curr, ballOrigin, paddleLeft.getMyPaddleSize());
 					ballplay.ballSpeedUpdate();
 					powerupplay.lastPaddleUpdate(Left);
 				}
 				//update ball angle if collision happens with right paddle
 				else if (collisionPosRight != NO_COLLISION_POSITION) {
+					ballSound.play();
 					ballplay.ballAngleUpdate_RPaddle(collisionPosRight, paddleRightPos_Curr, ballOrigin, paddleRight.getMyPaddleSize());
 					ballplay.ballSpeedUpdate();
 					powerupplay.lastPaddleUpdate(Right);

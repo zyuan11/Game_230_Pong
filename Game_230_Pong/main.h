@@ -39,7 +39,7 @@ const int MAX_DEGREE = 75;
 const float PI = 3.14159265359;
 
 //SCORE
-const int SCORE_MAX = 5;
+const int SCORE_MAX = 1;
 const int SCORE_TEXT_SIZE = 70;
 const sf::Vector2f SCORE_TEXT_LEFT_POSITION(200.f, 15.f);
 const sf::Vector2f SCORE_TEXT_RIGHT_POSITION(600.f, 15.f);
